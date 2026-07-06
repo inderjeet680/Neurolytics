@@ -1,0 +1,12 @@
+streamlit
+pandas
+numpy
+plotly
+openpyxl
+scikit-learn
+matplotlib
+mysql-connector-python
+sqlalchemy
+python-dotenv
+openai
+google-generativeai

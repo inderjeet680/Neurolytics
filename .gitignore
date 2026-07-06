@@ -1,0 +1,27 @@
+# Virtual Environment
+venv/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Environment Variables
+.env
+
+# Streamlit Cache
+.streamlit/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# User Uploads
+uploads/
+
+# Generated Reports
+reports/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
