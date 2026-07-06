@@ -1,13 +1,9 @@
-"""
-Module: Upload Dataset
-Project: Neurolytics
-"""
-
 import streamlit as st
-import pandas as pd
+from modules.file_handler import load_dataset, get_file_info
 
 
 def show():
+
     st.title("📂 Upload Dataset")
 
     uploaded_file = st.file_uploader(
@@ -17,24 +13,30 @@ def show():
 
     if uploaded_file:
 
-        if uploaded_file.name.endswith(".csv"):
-            df = pd.read_csv(uploaded_file)
+        try:
 
-        else:
-            df = pd.read_excel(uploaded_file)
+            df = load_dataset(uploaded_file)
 
-        st.session_state["dataset"] = df
+            st.session_state["dataset"] = df
 
-        st.success("Dataset Uploaded Successfully ✅")
+            info = get_file_info(df)
 
-        col1, col2, col3 = st.columns(3)
+            st.success("Dataset uploaded successfully ✅")
 
-        col1.metric("Rows", df.shape[0])
-        col2.metric("Columns", df.shape[1])
-        col3.metric("Missing Values", int(df.isnull().sum().sum()))
+            col1, col2, col3 = st.columns(3)
 
-        st.divider()
+            col1.metric("Rows", info["rows"])
+            col2.metric("Columns", info["columns"])
+            col3.metric("Missing", info["missing_values"])
 
-        st.subheader("Dataset Preview")
+            st.metric("Duplicate Rows", info["duplicate_rows"])
+            st.metric("Memory (KB)", info["memory_usage"])
 
-        st.dataframe(df.head(10), use_container_width=True)
+            st.divider()
+
+            st.subheader("Dataset Preview")
+
+            st.dataframe(df.head(10), use_container_width=True)
+
+        except Exception as e:
+            st.error(str(e))
